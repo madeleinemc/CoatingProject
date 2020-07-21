@@ -7,10 +7,12 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 SOURCES += \
     main.cpp \
-    window.cpp
+    window.cpp \
+    weather.cpp
 
 HEADERS += \
-    window.h
+    window.h \
+    weather.h
 
 DISTFILES += \
     ../Pictures/crocodile.jpg

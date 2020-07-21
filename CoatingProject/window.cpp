@@ -34,6 +34,9 @@ Window::Window(QWidget *parent) : QWidget(parent)
 
 }
 
+/* Executes when m_button is clicked
+ *
+ */
 void Window::slotButtonClicked()
 {
     zipcode= textline->text();
