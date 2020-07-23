@@ -4,6 +4,7 @@
 #include <QLabel>
 #include <QLineEdit>
 #include "window.h"
+#include "weather.h"
 
 Window::Window(QWidget *parent) : QWidget(parent)
 {
@@ -29,7 +30,7 @@ Window::Window(QWidget *parent) : QWidget(parent)
     m_button->setText("COAT?");
     m_button->setToolTip("A tooltip");
 
-    //Do the connection: Close app when button is pressed
+    //Do the connection: call slotButtonClicked when button is pressed
     connect(m_button, SIGNAL(clicked()), this, SLOT(slotButtonClicked()));
 
 }

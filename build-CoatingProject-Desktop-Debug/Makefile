@@ -12,10 +12,10 @@ MAKEFILE      = Makefile
 
 CC            = gcc
 CXX           = g++
-DEFINES       = -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB
+DEFINES       = -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB
 CFLAGS        = -pipe -g -Wall -W -D_REENTRANT -fPIC $(DEFINES)
 CXXFLAGS      = -pipe -std=c++0x -g -Wall -W -D_REENTRANT -fPIC $(DEFINES)
-INCPATH       = -I../CoatingProject -I. -I../../anaconda3/include/qt -I../../anaconda3/include/qt/QtWidgets -I../../anaconda3/include/qt/QtGui -I../../anaconda3/include/qt/QtCore -I. -I../../anaconda3/mkspecs/linux-g++
+INCPATH       = -I../CoatingProject -I. -I../../anaconda3/include/qt -I../../anaconda3/include/qt/QtWidgets -I../../anaconda3/include/qt/QtGui -I../../anaconda3/include/qt/QtNetwork -I../../anaconda3/include/qt/QtCore -I. -I../../anaconda3/mkspecs/linux-g++
 QMAKE         = /home/madeleine/anaconda3/bin/qmake
 DEL_FILE      = rm -f
 CHK_DIR_EXISTS= test -d
@@ -36,7 +36,7 @@ DISTNAME      = helloworld1.0.0
 DISTDIR = /home/madeleine/CoatingProject/build-CoatingProject-Desktop-Debug/.tmp/helloworld1.0.0
 LINK          = g++
 LFLAGS        = -Wl,-rpath,/home/madeleine/anaconda3/lib
-LIBS          = $(SUBLIBS) -L/home/madeleine/anaconda3/lib -lQt5Widgets -lQt5Gui -lQt5Core -lGL -lpthread 
+LIBS          = $(SUBLIBS) -L/home/madeleine/anaconda3/lib -lQt5Widgets -lQt5Gui -lQt5Network -lQt5Core -lGL -lpthread 
 AR            = ar cqs
 RANLIB        = 
 SED           = sed
@@ -49,9 +49,11 @@ OBJECTS_DIR   = ./
 ####### Files
 
 SOURCES       = ../CoatingProject/main.cpp \
-		../CoatingProject/window.cpp moc_window.cpp
+		../CoatingProject/window.cpp \
+		../CoatingProject/weather.cpp moc_window.cpp
 OBJECTS       = main.o \
 		window.o \
+		weather.o \
 		moc_window.o
 DIST          = ../Pictures/crocodile.jpg \
 		../../anaconda3/mkspecs/features/spec_pre.prf \
@@ -156,8 +158,10 @@ DIST          = ../Pictures/crocodile.jpg \
 		../../anaconda3/mkspecs/features/exceptions.prf \
 		../../anaconda3/mkspecs/features/yacc.prf \
 		../../anaconda3/mkspecs/features/lex.prf \
-		../CoatingProject/CoatingProject.pro ../CoatingProject/window.h ../CoatingProject/main.cpp \
-		../CoatingProject/window.cpp
+		../CoatingProject/CoatingProject.pro ../CoatingProject/window.h \
+		../CoatingProject/weather.h ../CoatingProject/main.cpp \
+		../CoatingProject/window.cpp \
+		../CoatingProject/weather.cpp
 QMAKE_TARGET  = helloworld
 DESTDIR       = 
 TARGET        = helloworld
@@ -274,6 +278,7 @@ Makefile: ../CoatingProject/CoatingProject.pro ../../anaconda3/mkspecs/linux-g++
 		../CoatingProject/CoatingProject.pro \
 		../../anaconda3/lib/libQt5Widgets.prl \
 		../../anaconda3/lib/libQt5Gui.prl \
+		../../anaconda3/lib/libQt5Network.prl \
 		../../anaconda3/lib/libQt5Core.prl
 	$(QMAKE) -spec linux-g++ CONFIG+=debug -o Makefile ../CoatingProject/CoatingProject.pro
 ../../anaconda3/mkspecs/features/spec_pre.prf:
@@ -381,6 +386,7 @@ Makefile: ../CoatingProject/CoatingProject.pro ../../anaconda3/mkspecs/linux-g++
 ../CoatingProject/CoatingProject.pro:
 ../../anaconda3/lib/libQt5Widgets.prl:
 ../../anaconda3/lib/libQt5Gui.prl:
+../../anaconda3/lib/libQt5Network.prl:
 ../../anaconda3/lib/libQt5Core.prl:
 qmake: FORCE
 	@$(QMAKE) -spec linux-g++ CONFIG+=debug -o Makefile ../CoatingProject/CoatingProject.pro
@@ -396,8 +402,8 @@ dist: distdir FORCE
 distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
-	$(COPY_FILE) --parents ../CoatingProject/window.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../CoatingProject/main.cpp ../CoatingProject/window.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../CoatingProject/window.h ../CoatingProject/weather.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../CoatingProject/main.cpp ../CoatingProject/window.cpp ../CoatingProject/weather.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -538,7 +544,7 @@ moc_window.cpp: ../../anaconda3/include/qt/QtCore/QString \
 		../../anaconda3/include/qt/QtGui/qpen.h \
 		../../anaconda3/include/qt/QtGui/qtextoption.h \
 		../CoatingProject/window.h
-	/home/madeleine/anaconda3/bin/moc $(DEFINES) -I/home/madeleine/anaconda3/mkspecs/linux-g++ -I/home/madeleine/CoatingProject/CoatingProject -I/home/madeleine/anaconda3/include/qt -I/home/madeleine/anaconda3/include/qt/QtWidgets -I/home/madeleine/anaconda3/include/qt/QtGui -I/home/madeleine/anaconda3/include/qt/QtCore -I. -I/home/madeleine/anaconda3/x86_64-conda_cos6-linux-gnu/include/c++/7.2.0 -I/home/madeleine/anaconda3/x86_64-conda_cos6-linux-gnu/include/c++/7.2.0/x86_64-conda_cos6-linux-gnu -I/home/madeleine/anaconda3/x86_64-conda_cos6-linux-gnu/include/c++/7.2.0/backward -I/home/madeleine/anaconda3/lib/gcc/x86_64-conda_cos6-linux-gnu/7.2.0/include -I/home/madeleine/anaconda3/lib/gcc/x86_64-conda_cos6-linux-gnu/7.2.0/include-fixed -I/home/madeleine/anaconda3/x86_64-conda_cos6-linux-gnu/include -I/home/madeleine/anaconda3/x86_64-conda_cos6-linux-gnu/sysroot/usr/include ../CoatingProject/window.h -o moc_window.cpp
+	/home/madeleine/anaconda3/bin/moc $(DEFINES) -I/home/madeleine/anaconda3/mkspecs/linux-g++ -I/home/madeleine/CoatingProject/CoatingProject -I/home/madeleine/anaconda3/include/qt -I/home/madeleine/anaconda3/include/qt/QtWidgets -I/home/madeleine/anaconda3/include/qt/QtGui -I/home/madeleine/anaconda3/include/qt/QtNetwork -I/home/madeleine/anaconda3/include/qt/QtCore -I. -I/home/madeleine/anaconda3/x86_64-conda_cos6-linux-gnu/include/c++/7.2.0 -I/home/madeleine/anaconda3/x86_64-conda_cos6-linux-gnu/include/c++/7.2.0/x86_64-conda_cos6-linux-gnu -I/home/madeleine/anaconda3/x86_64-conda_cos6-linux-gnu/include/c++/7.2.0/backward -I/home/madeleine/anaconda3/lib/gcc/x86_64-conda_cos6-linux-gnu/7.2.0/include -I/home/madeleine/anaconda3/lib/gcc/x86_64-conda_cos6-linux-gnu/7.2.0/include-fixed -I/home/madeleine/anaconda3/x86_64-conda_cos6-linux-gnu/include -I/home/madeleine/anaconda3/x86_64-conda_cos6-linux-gnu/sysroot/usr/include ../CoatingProject/window.h -o moc_window.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
@@ -809,6 +815,135 @@ window.o: ../CoatingProject/window.cpp ../../anaconda3/include/qt/QtCore/QString
 		../CoatingProject/window.h \
 		../../anaconda3/include/qt/QtWidgets/QWidget
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o window.o ../CoatingProject/window.cpp
+
+weather.o: ../CoatingProject/weather.cpp ../CoatingProject/weather.h \
+		../../anaconda3/include/qt/QtCore/QObject \
+		../../anaconda3/include/qt/QtCore/qobject.h \
+		../../anaconda3/include/qt/QtCore/qobjectdefs.h \
+		../../anaconda3/include/qt/QtCore/qnamespace.h \
+		../../anaconda3/include/qt/QtCore/qglobal.h \
+		../../anaconda3/include/qt/QtCore/qconfig.h \
+		../../anaconda3/include/qt/QtCore/qfeatures.h \
+		../../anaconda3/include/qt/QtCore/qsystemdetection.h \
+		../../anaconda3/include/qt/QtCore/qprocessordetection.h \
+		../../anaconda3/include/qt/QtCore/qcompilerdetection.h \
+		../../anaconda3/include/qt/QtCore/qtypeinfo.h \
+		../../anaconda3/include/qt/QtCore/qtypetraits.h \
+		../../anaconda3/include/qt/QtCore/qisenum.h \
+		../../anaconda3/include/qt/QtCore/qsysinfo.h \
+		../../anaconda3/include/qt/QtCore/qlogging.h \
+		../../anaconda3/include/qt/QtCore/qflags.h \
+		../../anaconda3/include/qt/QtCore/qatomic.h \
+		../../anaconda3/include/qt/QtCore/qbasicatomic.h \
+		../../anaconda3/include/qt/QtCore/qatomic_bootstrap.h \
+		../../anaconda3/include/qt/QtCore/qgenericatomic.h \
+		../../anaconda3/include/qt/QtCore/qatomic_cxx11.h \
+		../../anaconda3/include/qt/QtCore/qatomic_gcc.h \
+		../../anaconda3/include/qt/QtCore/qatomic_msvc.h \
+		../../anaconda3/include/qt/QtCore/qatomic_armv7.h \
+		../../anaconda3/include/qt/QtCore/qatomic_armv6.h \
+		../../anaconda3/include/qt/QtCore/qatomic_armv5.h \
+		../../anaconda3/include/qt/QtCore/qatomic_ia64.h \
+		../../anaconda3/include/qt/QtCore/qatomic_x86.h \
+		../../anaconda3/include/qt/QtCore/qatomic_unix.h \
+		../../anaconda3/include/qt/QtCore/qglobalstatic.h \
+		../../anaconda3/include/qt/QtCore/qmutex.h \
+		../../anaconda3/include/qt/QtCore/qnumeric.h \
+		../../anaconda3/include/qt/QtCore/qversiontagging.h \
+		../../anaconda3/include/qt/QtCore/qobjectdefs_impl.h \
+		../../anaconda3/include/qt/QtCore/qstring.h \
+		../../anaconda3/include/qt/QtCore/qchar.h \
+		../../anaconda3/include/qt/QtCore/qbytearray.h \
+		../../anaconda3/include/qt/QtCore/qrefcount.h \
+		../../anaconda3/include/qt/QtCore/qarraydata.h \
+		../../anaconda3/include/qt/QtCore/qstringbuilder.h \
+		../../anaconda3/include/qt/QtCore/qlist.h \
+		../../anaconda3/include/qt/QtCore/qalgorithms.h \
+		../../anaconda3/include/qt/QtCore/qiterator.h \
+		../../anaconda3/include/qt/QtCore/qhashfunctions.h \
+		../../anaconda3/include/qt/QtCore/qpair.h \
+		../../anaconda3/include/qt/QtCore/qbytearraylist.h \
+		../../anaconda3/include/qt/QtCore/qstringlist.h \
+		../../anaconda3/include/qt/QtCore/qregexp.h \
+		../../anaconda3/include/qt/QtCore/qstringmatcher.h \
+		../../anaconda3/include/qt/QtCore/qcoreevent.h \
+		../../anaconda3/include/qt/QtCore/qscopedpointer.h \
+		../../anaconda3/include/qt/QtCore/qmetatype.h \
+		../../anaconda3/include/qt/QtCore/qvarlengtharray.h \
+		../../anaconda3/include/qt/QtCore/qcontainerfwd.h \
+		../../anaconda3/include/qt/QtCore/qobject_impl.h \
+		../../anaconda3/include/qt/QtWidgets/QWidget \
+		../../anaconda3/include/qt/QtWidgets/qwidget.h \
+		../../anaconda3/include/qt/QtGui/qwindowdefs.h \
+		../../anaconda3/include/qt/QtGui/qwindowdefs_win.h \
+		../../anaconda3/include/qt/QtCore/qmargins.h \
+		../../anaconda3/include/qt/QtGui/qpaintdevice.h \
+		../../anaconda3/include/qt/QtCore/qrect.h \
+		../../anaconda3/include/qt/QtCore/qsize.h \
+		../../anaconda3/include/qt/QtCore/qpoint.h \
+		../../anaconda3/include/qt/QtGui/qpalette.h \
+		../../anaconda3/include/qt/QtGui/qcolor.h \
+		../../anaconda3/include/qt/QtGui/qrgb.h \
+		../../anaconda3/include/qt/QtGui/qrgba64.h \
+		../../anaconda3/include/qt/QtGui/qbrush.h \
+		../../anaconda3/include/qt/QtCore/qvector.h \
+		../../anaconda3/include/qt/QtGui/qmatrix.h \
+		../../anaconda3/include/qt/QtGui/qpolygon.h \
+		../../anaconda3/include/qt/QtGui/qregion.h \
+		../../anaconda3/include/qt/QtCore/qdatastream.h \
+		../../anaconda3/include/qt/QtCore/qiodevice.h \
+		../../anaconda3/include/qt/QtCore/qline.h \
+		../../anaconda3/include/qt/QtGui/qtransform.h \
+		../../anaconda3/include/qt/QtGui/qpainterpath.h \
+		../../anaconda3/include/qt/QtGui/qimage.h \
+		../../anaconda3/include/qt/QtGui/qpixelformat.h \
+		../../anaconda3/include/qt/QtGui/qpixmap.h \
+		../../anaconda3/include/qt/QtCore/qsharedpointer.h \
+		../../anaconda3/include/qt/QtCore/qshareddata.h \
+		../../anaconda3/include/qt/QtCore/qhash.h \
+		../../anaconda3/include/qt/QtCore/qsharedpointer_impl.h \
+		../../anaconda3/include/qt/QtGui/qfont.h \
+		../../anaconda3/include/qt/QtGui/qfontmetrics.h \
+		../../anaconda3/include/qt/QtGui/qfontinfo.h \
+		../../anaconda3/include/qt/QtWidgets/qsizepolicy.h \
+		../../anaconda3/include/qt/QtGui/qcursor.h \
+		../../anaconda3/include/qt/QtGui/qkeysequence.h \
+		../../anaconda3/include/qt/QtGui/qevent.h \
+		../../anaconda3/include/qt/QtCore/qvariant.h \
+		../../anaconda3/include/qt/QtCore/qmap.h \
+		../../anaconda3/include/qt/QtCore/qdebug.h \
+		../../anaconda3/include/qt/QtCore/qtextstream.h \
+		../../anaconda3/include/qt/QtCore/qlocale.h \
+		../../anaconda3/include/qt/QtCore/qset.h \
+		../../anaconda3/include/qt/QtCore/qcontiguouscache.h \
+		../../anaconda3/include/qt/QtCore/qurl.h \
+		../../anaconda3/include/qt/QtCore/qurlquery.h \
+		../../anaconda3/include/qt/QtCore/qfile.h \
+		../../anaconda3/include/qt/QtCore/qfiledevice.h \
+		../../anaconda3/include/qt/QtGui/qvector2d.h \
+		../../anaconda3/include/qt/QtGui/qtouchdevice.h \
+		../../anaconda3/include/qt/QtNetwork/QNetworkAccessManager \
+		../../anaconda3/include/qt/QtNetwork/qnetworkaccessmanager.h \
+		../../anaconda3/include/qt/QtNetwork/QSslConfiguration \
+		../../anaconda3/include/qt/QtNetwork/qsslconfiguration.h \
+		../../anaconda3/include/qt/QtNetwork/qsslsocket.h \
+		../../anaconda3/include/qt/QtNetwork/qtcpsocket.h \
+		../../anaconda3/include/qt/QtNetwork/qabstractsocket.h \
+		../../anaconda3/include/qt/QtNetwork/qsslerror.h \
+		../../anaconda3/include/qt/QtNetwork/qsslcertificate.h \
+		../../anaconda3/include/qt/QtCore/qcryptographichash.h \
+		../../anaconda3/include/qt/QtCore/qdatetime.h \
+		../../anaconda3/include/qt/QtNetwork/qssl.h \
+		../../anaconda3/include/qt/QtCore/QFlags \
+		../../anaconda3/include/qt/QtNetwork/QSslPreSharedKeyAuthenticator \
+		../../anaconda3/include/qt/QtNetwork/qsslpresharedkeyauthenticator.h \
+		../../anaconda3/include/qt/QtCore/QtGlobal \
+		../../anaconda3/include/qt/QtCore/QString \
+		../../anaconda3/include/qt/QtCore/QSharedDataPointer \
+		../../anaconda3/include/qt/QtCore/QMetaType \
+		../../anaconda3/include/qt/QtCore/QEventLoop \
+		../../anaconda3/include/qt/QtCore/qeventloop.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o weather.o ../CoatingProject/weather.cpp
 
 moc_window.o: moc_window.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_window.o moc_window.cpp

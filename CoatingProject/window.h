@@ -4,6 +4,7 @@
 #include <QString>
 #include <QWidget>
 #include <QLineEdit>
+#include <QUrl>
 
 class QPushButton;
 class QLineEdit;
