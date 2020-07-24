@@ -5,6 +5,7 @@
 #include <QWidget>
 #include <QLineEdit>
 #include <QUrl>
+#include <QLabel>
 
 class QPushButton;
 class QLineEdit;
@@ -23,6 +24,7 @@ private:
     QPushButton *m_button;
     QLineEdit *textline;
     QString zipcode;
+    QLabel *result;
 };
 
 #endif // WINDOW_H

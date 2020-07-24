@@ -9,25 +9,30 @@
 Window::Window(QWidget *parent) : QWidget(parent)
 {
 
-    //set the size of the window
+    //formatting
     setFixedSize(1000,500);
+    QFont font ("Helvetica", 20);
 
     //LineEdit box
     //"this" keyword allows display on window
     textline = new QLineEdit(this);
     textline->setPlaceholderText("ZIP CODE");
+    textline->setFont(font);
+
+    //result
+    result = new QLabel("No result yet", this);
+    result->setFont(font);
+    result->setGeometry(0,-150,1000,500);
 
 
     //create and position the button
-    m_button = new QPushButton("Hello world", this);
-    m_button->setGeometry(100,100,800,300);
+    m_button = new QPushButton("COAT?", this);
+    m_button->setGeometry(100,200,700,200);
 
-    //add things to the button
-    QFont font ("Courier", 20);
+    //add things to the button;
     QIcon icon ("/home/madeleine/Pictures/crocodile.jpg");
     m_button->setFont(font);
     m_button->setIcon(icon);
-    m_button->setText("COAT?");
     m_button->setToolTip("A tooltip");
 
     //Do the connection: call slotButtonClicked when button is pressed
@@ -40,6 +45,13 @@ Window::Window(QWidget *parent) : QWidget(parent)
  */
 void Window::slotButtonClicked()
 {
+    // Get the information entered by the user
     zipcode= textline->text();
+
+    Weather weather (zipcode);
+
     m_button->setText(zipcode);
+
+    // Display the result of the weather analysis
+    result->setText(weather.view_html());
 }
