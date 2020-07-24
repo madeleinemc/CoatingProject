@@ -19,9 +19,11 @@ private:
     QString html; //page source of weather.com for today @zipcode
 
 public:
-    Weather(QString new_zipcode);
+    Weather(QString new_zipcode); //create Weather object using zipcode
 
     QString view_html();
+
+    QString get_temp(); //extract temp from html
 };
 
 #endif // WEATHER_H

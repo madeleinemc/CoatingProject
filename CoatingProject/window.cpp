@@ -53,5 +53,5 @@ void Window::slotButtonClicked()
     m_button->setText(zipcode);
 
     // Display the result of the weather analysis
-    result->setText(weather.view_html());
+    result->setText(weather.get_temp());
 }
