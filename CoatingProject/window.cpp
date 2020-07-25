@@ -52,6 +52,19 @@ void Window::slotButtonClicked()
 
     m_button->setText(zipcode);
 
+    QString coat_text;
+    switch(weather.get_coat()){
+        case 0:
+            coat_text = "NO COAT";
+            break;
+        case 1:
+            coat_text = "LIGHT COAT";
+            break;
+        case 2:
+            coat_text = "HEAVY COAT";
+            break;
+    }
+
     // Display the result of the weather analysis
-    result->setText(weather.get_temp());
+    result->setText(coat_text);
 }

@@ -1,5 +1,5 @@
 TEMPLATE = app
-TARGET = helloworld
+TARGET = CoatingProject
 
 QT = core gui
 
