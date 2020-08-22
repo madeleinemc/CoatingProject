@@ -5,7 +5,7 @@ Weather::Weather(QString new_zipcode)
     zipcode = new_zipcode;
 
 
-    //make it so these can be changed
+    //make it so these can be changed by user (Under "Advanced" settings?)
     light_coat = 60;
     heavy_coat = 30;
 
@@ -50,6 +50,7 @@ int Weather::get_temp(){
     return temp;
 }
 
+//int is faster than string
 int Weather::get_coat(){
     if (temp >= light_coat) return 0;
     if (temp >= heavy_coat) return 1;

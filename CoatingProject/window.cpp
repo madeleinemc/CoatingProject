@@ -17,12 +17,14 @@ Window::Window(QWidget *parent) : QWidget(parent)
     //"this" keyword allows display on window
     textline = new QLineEdit(this);
     textline->setPlaceholderText("ZIP CODE");
+    textline->setMaxLength(5);
     textline->setFont(font);
+    textline->move(10,10);
 
     //result
     result = new QLabel("No result yet", this);
     result->setFont(font);
-    result->setGeometry(0,-150,1000,500);
+    result->move(10,100);
 
 
     //create and position the button
@@ -30,13 +32,14 @@ Window::Window(QWidget *parent) : QWidget(parent)
     m_button->setGeometry(100,200,700,200);
 
     //add things to the button;
-    QIcon icon ("/home/madeleine/Pictures/crocodile.jpg");
+    //QIcon icon ("/home/madeleine/Pictures/crocodile.jpg");
     m_button->setFont(font);
-    m_button->setIcon(icon);
-    m_button->setToolTip("A tooltip");
+    //m_button->setIcon(icon);
+    m_button->setToolTip("Click for your clothing recommendation based on your local weather");
 
     //Do the connection: call slotButtonClicked when button is pressed
     connect(m_button, SIGNAL(clicked()), this, SLOT(slotButtonClicked()));
+
 
 }
 
@@ -46,7 +49,8 @@ Window::Window(QWidget *parent) : QWidget(parent)
 void Window::slotButtonClicked()
 {
     // Get the information entered by the user
-    zipcode= textline->text();
+    zipcode = textline->text();
+
 
     Weather weather (zipcode);
 
@@ -65,6 +69,7 @@ void Window::slotButtonClicked()
             break;
     }
 
+
     // Display the result of the weather analysis
-    result->setText(coat_text);
+    result -> setText(coat_text);
 }
