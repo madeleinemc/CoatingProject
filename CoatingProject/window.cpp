@@ -11,7 +11,9 @@ Window::Window(QWidget *parent) : QWidget(parent)
 
     //formatting
     setFixedSize(1000,500);
-    QFont font ("Helvetica", 20);
+    font.setFamily("Helvetica");
+    font.setPointSize(20);
+    //font = QFont ("Helvetica", 20);
 
     //LineEdit box
     //"this" keyword allows display on window
@@ -71,5 +73,8 @@ void Window::slotButtonClicked()
 
 
     // Display the result of the weather analysis
+    QFont bold_font (font);
+    bold_font.setBold(true);
+    result->setFont(bold_font);
     result -> setText(coat_text);
 }

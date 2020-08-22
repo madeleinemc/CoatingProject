@@ -25,6 +25,7 @@ private:
     QLineEdit *textline;
     QString zipcode;
     QLabel *result;
+    QFont font;
 };
 
 #endif // WINDOW_H
