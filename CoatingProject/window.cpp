@@ -8,12 +8,16 @@
 
 Window::Window(QWidget *parent) : QWidget(parent)
 {
-
     //formatting
     setFixedSize(1000,500);
+    //font
     font.setFamily("Helvetica");
     font.setPointSize(20);
-    //font = QFont ("Helvetica", 20);
+    //background image
+    QPixmap background ("home/madeleine/CoatingProject/clouds.jpg");
+    QPalette palette;
+    palette.setBrush(QPalette::Background, background);
+    this->setPalette(palette);
 
     //LineEdit box
     //"this" keyword allows display on window
