@@ -14,7 +14,7 @@ Window::Window(QWidget *parent) : QWidget(parent)
     font.setFamily("Helvetica");
     font.setPointSize(20);
     //background image
-    QPixmap background ("home/madeleine/CoatingProject/clouds.jpg");
+    QPixmap background ("images//clouds.jpg");
     QPalette palette;
     palette.setBrush(QPalette::Background, background);
     this->setPalette(palette);
@@ -60,7 +60,7 @@ void Window::slotButtonClicked()
 
     Weather weather (zipcode);
 
-    m_button->setText(zipcode);
+    m_button->setText("COAT ME AGAIN");
 
     QString coat_text;
     switch(weather.get_coat()){

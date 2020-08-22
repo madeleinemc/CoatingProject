@@ -50,10 +50,12 @@ OBJECTS_DIR   = ./
 
 SOURCES       = ../CoatingProject/main.cpp \
 		../CoatingProject/window.cpp \
-		../CoatingProject/weather.cpp moc_window.cpp
+		../CoatingProject/weather.cpp qrc_images.cpp \
+		moc_window.cpp
 OBJECTS       = main.o \
 		window.o \
 		weather.o \
+		qrc_images.o \
 		moc_window.o
 DIST          = ../Pictures/crocodile.jpg \
 		../../anaconda3/mkspecs/features/spec_pre.prf \
@@ -276,6 +278,7 @@ Makefile: ../CoatingProject/CoatingProject.pro ../../anaconda3/mkspecs/linux-g++
 		../../anaconda3/mkspecs/features/yacc.prf \
 		../../anaconda3/mkspecs/features/lex.prf \
 		../CoatingProject/CoatingProject.pro \
+		../CoatingProject/images.qrc \
 		../../anaconda3/lib/libQt5Widgets.prl \
 		../../anaconda3/lib/libQt5Gui.prl \
 		../../anaconda3/lib/libQt5Network.prl \
@@ -384,6 +387,7 @@ Makefile: ../CoatingProject/CoatingProject.pro ../../anaconda3/mkspecs/linux-g++
 ../../anaconda3/mkspecs/features/yacc.prf:
 ../../anaconda3/mkspecs/features/lex.prf:
 ../CoatingProject/CoatingProject.pro:
+../CoatingProject/images.qrc:
 ../../anaconda3/lib/libQt5Widgets.prl:
 ../../anaconda3/lib/libQt5Gui.prl:
 ../../anaconda3/lib/libQt5Network.prl:
@@ -402,6 +406,7 @@ dist: distdir FORCE
 distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
+	$(COPY_FILE) --parents ../CoatingProject/images.qrc $(DISTDIR)/
 	$(COPY_FILE) --parents ../CoatingProject/window.h ../CoatingProject/weather.h $(DISTDIR)/
 	$(COPY_FILE) --parents ../CoatingProject/main.cpp ../CoatingProject/window.cpp ../CoatingProject/weather.cpp $(DISTDIR)/
 
@@ -426,8 +431,13 @@ check: first
 
 benchmark: first
 
-compiler_rcc_make_all:
+compiler_rcc_make_all: qrc_images.cpp
 compiler_rcc_clean:
+	-$(DEL_FILE) qrc_images.cpp
+qrc_images.cpp: ../CoatingProject/images.qrc \
+		../CoatingProject/clouds.jpg
+	/home/madeleine/anaconda3/bin/rcc -name images ../CoatingProject/images.qrc -o qrc_images.cpp
+
 compiler_moc_header_make_all: moc_window.cpp
 compiler_moc_header_clean:
 	-$(DEL_FILE) moc_window.cpp
@@ -559,7 +569,7 @@ compiler_yacc_impl_make_all:
 compiler_yacc_impl_clean:
 compiler_lex_make_all:
 compiler_lex_clean:
-compiler_clean: compiler_moc_header_clean 
+compiler_clean: compiler_rcc_clean compiler_moc_header_clean 
 
 ####### Compile
 
@@ -983,6 +993,9 @@ weather.o: ../CoatingProject/weather.cpp ../CoatingProject/weather.h \
 		../../anaconda3/include/qt/QtNetwork/qnetworkreply.h \
 		../../anaconda3/include/qt/QtCore/QIODevice
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o weather.o ../CoatingProject/weather.cpp
+
+qrc_images.o: qrc_images.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qrc_images.o qrc_images.cpp
 
 moc_window.o: moc_window.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_window.o moc_window.cpp

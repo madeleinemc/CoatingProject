@@ -20,3 +20,6 @@ DISTFILES += \
 
 QMAKE_CXXFLAGS += -std=c++0x
 
+RESOURCES += \
+    images.qrc
+
