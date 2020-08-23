@@ -14,7 +14,7 @@ Window::Window(QWidget *parent) : QWidget(parent)
     font.setFamily("Helvetica");
     font.setPointSize(20);
     //background image
-    QPixmap background ("images//clouds.jpg");
+    QPixmap background ("://clouds.jpg");
     QPalette palette;
     palette.setBrush(QPalette::Background, background);
     this->setPalette(palette);
@@ -38,9 +38,7 @@ Window::Window(QWidget *parent) : QWidget(parent)
     m_button->setGeometry(100,200,700,200);
 
     //add things to the button;
-    //QIcon icon ("/home/madeleine/Pictures/crocodile.jpg");
     m_button->setFont(font);
-    //m_button->setIcon(icon);
     m_button->setToolTip("Click for your clothing recommendation based on your local weather");
 
     //Do the connection: call slotButtonClicked when button is pressed
