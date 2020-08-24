@@ -17,16 +17,19 @@ class Weather
 private:
     QString zipcode; //location of the weather
     QString html; //page source of weather.com for today @zipcode
+    QString location; //location name
     int temp;
     int light_coat;
     int heavy_coat;
 
-    QString get_temp_str(); //extract temp from html
+    QString get_from_html(QString marker, QString delimiter); //extract string from html
 
 public:
     Weather(QString new_zipcode); //create Weather object using zipcode
 
     QString view_html();
+
+    QString get_loc();
 
     int get_temp();
 

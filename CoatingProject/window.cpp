@@ -28,7 +28,7 @@ Window::Window(QWidget *parent) : QWidget(parent)
     textline->move(10,10);
 
     //result
-    result = new QLabel("No result yet", this);
+    result = new QLabel("No result yet                                               ", this); //might be useful to resize QLabel instead of making it long
     result->setFont(font);
     result->move(10,100);
 
@@ -78,5 +78,5 @@ void Window::slotButtonClicked()
     QFont bold_font (font);
     bold_font.setBold(true);
     result->setFont(bold_font);
-    result -> setText(coat_text);
+    result -> setText(weather.get_loc() + ": " + coat_text);
 }

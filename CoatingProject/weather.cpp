@@ -4,7 +4,6 @@ Weather::Weather(QString new_zipcode)
 {
     zipcode = new_zipcode;
 
-
     //make it so these can be changed by user (Under "Advanced" settings?)
     light_coat = 60;
     heavy_coat = 30;
@@ -20,30 +19,40 @@ Weather::Weather(QString new_zipcode)
     event.exec();
     html = response->readAll(); // Source should be stored here
 
-    temp = (get_temp_str()).toInt();
+    //get location and temp from html
+    QString loc_marker = "<title data-react-helmet=\"true\">";
+    QString loc_delimiter = ",";
+    location = get_from_html(loc_marker, loc_delimiter);
+    QString temp_marker = "class=\"_-_-components-src-organism-CurrentConditions-CurrentConditions--tempValue--MHmYY\">";
+    QString temp_delimiter = "°";
+    temp = get_from_html(temp_marker, temp_delimiter).toInt();
 }
 
 QString Weather::view_html(){
     return html;
 }
 
-QString Weather::get_temp_str(){
-
-    //the text that precedes temperature val in the html
-    QString marker = "class=\"_-_-components-src-organism-CurrentConditions-CurrentConditions--tempValue--MHmYY\">";
+/* [get_from_html marker delimiter] returns the string in between the first instance of marker
+ * and the first instance of delimiter after marker
+*/
+QString Weather::get_from_html(QString marker, QString delimiter){
 
     //get index of the temperature
     int marker_index = html.indexOf(marker);
-    int temp_index = marker_index + marker.length();
-    int degree_index = html.indexOf("°", temp_index);
+    int target_index = marker_index + marker.length();
+    int degree_index = html.indexOf(delimiter, target_index);
 
     //format string based on indices
     QString html_copy = html;
-    html_copy.remove(0,temp_index);
-    html_copy.remove(degree_index-temp_index, html_copy.length());
-    QString temp = html_copy;
+    html_copy.remove(0,target_index);
+    html_copy.remove(degree_index-target_index, html_copy.length());
+    QString target = html_copy;
 
-    return temp;
+    return target;
+}
+
+QString Weather::get_loc(){
+    return location;
 }
 
 int Weather::get_temp(){
