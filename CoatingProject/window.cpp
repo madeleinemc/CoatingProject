@@ -28,10 +28,11 @@ Window::Window(QWidget *parent) : QWidget(parent)
     textline->move(10,10);
 
     //result
-    result = new QLabel("No result yet", this); //might be useful to resize QLabel instead of making it long
+    result = new QLabel("No result yet", this);
     result->setFont(font);
     result->move(10,100);
 
+    //zipcode = new QString();
 
     //create and position the button
     m_button = new QPushButton("COAT?", this);
@@ -44,17 +45,39 @@ Window::Window(QWidget *parent) : QWidget(parent)
     //Do the connection: call slotButtonClicked when button is pressed
     connect(m_button, SIGNAL(clicked()), this, SLOT(slotButtonClicked()));
 
+    //QLabel result automatically resizes if text changes
+    connect(this, SIGNAL(resultChanged()), this, SLOT(slotresizeResult()));
+}
 
+/*resize QLabel result
+* without this, result sets max size to size it was created
+*/
+void Window::slotresizeResult(){
+    result->adjustSize();
+}
+
+
+/* Returns if zipcode has valid format
+ */
+bool Window::check_zip(){
+    bool length = zipcode.length() == 5;
+    bool number = zipcode.toInt() > 0; //QString::toInt returns 0 if conversion fails
+
+    return length && number;
 }
 
 /* Executes when m_button is clicked
- *
  */
 void Window::slotButtonClicked()
 {
     // Get the information entered by the user
     zipcode = textline->text();
 
+    if(!check_zip()){
+        result->setText("Does your zip code contain 5 numbers?");
+        if (result->width() != result->text().length()) emit resultChanged();
+        return;
+    }
 
     Weather weather (zipcode);
 
@@ -73,11 +96,10 @@ void Window::slotButtonClicked()
             break;
     }
 
-
     // Display the result of the weather analysis
     QFont bold_font (font);
     bold_font.setBold(true);
     result->setFont(bold_font);
     result -> setText(weather.get_loc() + ": " + coat_text);
-    result->adjustSize();
+    if (result->width() != result->text().length()) emit resultChanged();  //make this not redundant
 }

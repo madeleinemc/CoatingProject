@@ -19,6 +19,10 @@ public:
 
 public slots:
     void slotButtonClicked();
+    void slotresizeResult();
+
+signals:
+    void resultChanged();
 
 private:
     QPushButton *m_button;
@@ -26,6 +30,8 @@ private:
     QString zipcode;
     QLabel *result;
     QFont font;
+
+    bool check_zip();
 };
 
 #endif // WINDOW_H
